@@ -1,0 +1,49 @@
+<!-- app/views/bookmarks/new.html.erb - Versão alternativa -->
+<div class="container mt-4">
+  <h1>Add a Movie to <%= @list.name %></h1>
+
+  <%= form_with model: [@list, @bookmark] do |f| %>
+    <% if @bookmark.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(@bookmark.errors.count, "error") %>:</h4>
+        <ul>
+          <% @bookmark.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <h3>Select a Movie:</h3>
+    <div class="row mb-4">
+      <% @movies.each do |movie| %>
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <%= image_tag movie.poster_url, class: "card-img-top", alt: movie.title %>
+            <div class="card-body">
+              <h6 class="card-title"><%= movie.title %></h6>
+              <small class="text-muted">⭐ <%= movie.rating %></small>
+              <div class="form-check mt-2">
+                <%= f.radio_button :movie_id, movie.id, class: "form-check-input" %>
+                <%= f.label "movie_id_#{movie.id}", "Select", class: "form-check-label" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :comment, "Comment (min 6 characters)", class: "form-label" %>
+      <%= f.text_area :comment,
+          class: "form-control",
+          rows: 3,
+          placeholder: "Why do you want to watch this movie?" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.submit "Add to List", class: "btn btn-primary" %>
+      <%= link_to "Cancel", list_path(@list), class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

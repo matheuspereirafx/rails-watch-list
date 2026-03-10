@@ -1,0 +1,31 @@
+<!-- app/views/movies/show.html.erb -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <%= image_tag @movie.poster_url, class: "img-fluid rounded", alt: @movie.title %>
+    </div>
+
+    <div class="col-md-8">
+      <h1><%= @movie.title %></h1>
+      <p class="lead">⭐ <%= @movie.rating %>/10</p>
+
+      <h3>Overview</h3>
+      <p><%= @movie.overview %></p>
+
+      <hr>
+
+      <h4>This movie appears in:</h4>
+      <% if @movie.lists.any? %>
+        <ul>
+          <% @movie.lists.each do |list| %>
+            <li><%= link_to list.name, list_path(list) %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted">Not in any list yet</p>
+      <% end %>
+
+      <%= link_to "Back to Movies", movies_path, class: "btn btn-secondary mt-3" %>
+    </div>
+  </div>
+</div>

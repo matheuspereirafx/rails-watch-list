@@ -10,5 +10,23 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "lists#index"
+
+  #listas
+    # lista todas listas
+    # formulario para criar listas
+    # create salvar lista
+    # show mostra uma lista especiifca
+    # dentro da rota aidicona na lista quero coloca os favoritos
+    # create salavar na lista os favoristo
+  resources :lists, only:  [:index, :show, :new, :create, :destroy] do
+    resources :bookmarks, only:[:new, :create]
+  end
+
+  #remover filme do favorito
+  resources :bookmarks, only: [:destroy]
+
+  #listar todos os filmes
+  #listar apenas um
+  resources :movies, only: [:index, :show]
 end

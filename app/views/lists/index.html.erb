@@ -1,0 +1,50 @@
+<div class="container">
+  <h1>My Lists</h1>
+
+  <!-- Botão que abre o modal -->
+  <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#newListModal">
+    New List
+  </button>
+
+  <div class="row">
+    <% @lists.each do |list| %>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= list.name %></h5>
+            <%= link_to "View", list_path(list), class: "btn btn-sm btn-outline-primary" %>
+            <%= link_to "Delete", list_path(list),
+              data: { turbo_method: :delete, turbo_confirm: "Are you sure? This will remove all bookmarks!" },
+              class: "btn btn-sm btn-outline-danger" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Modal do Bootstrap -->
+<div class="modal fade" id="newListModal" tabindex="-1" aria-labelledby="newListModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newListModalLabel">Create a New List</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <%= form_with model: @new_list, html: { class: "needs-validation" } do |f| %>
+        <div class="modal-body">
+          <div class="mb-3">
+            <%= f.label :name, class: "form-label" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "Enter list name", required: true %>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <%= f.submit "Create List", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
